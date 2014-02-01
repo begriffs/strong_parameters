@@ -30,4 +30,14 @@ class RaiseOnUnpermittedParamsTest < ActiveSupport::TestCase
       params.permit(:book => [:pages])
     end
   end
+
+  test "does not raise on empty array of objects" do
+    params = ActionController::Parameters.new({
+      :things => [ ]
+    })
+
+    assert_nothing_raised(ActionController::UnpermittedParameters) do
+      params.permit :things => [ :foo ]
+    end
+  end
 end
